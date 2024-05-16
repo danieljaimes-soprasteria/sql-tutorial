@@ -118,36 +118,62 @@ SET
 WHERE
     cust_last_name = 'Watson';
 
-INSERT INTO customers
-(customer_id,cust_first_name,cust_last_name,credit_limit)
-SELECT customer_id+1,cust_first_name,cust_last_name,credit_limit
-FROM customers
-WHERE cust_last_name='Watson';
+INSERT INTO customers (
+    customer_id,
+    cust_first_name,
+    cust_last_name,
+    credit_limit
+)
+    SELECT
+        customer_id + 1,
+        cust_first_name,
+        cust_last_name,
+        credit_limit
+    FROM
+        customers
+    WHERE
+        cust_last_name = 'Watson';
 
 UPDATE customers
-SET cust_last_name='Ramklass',cust_first_name='Roopesh'
-WHERE customer_id=
- (SELECT max(customer_id)
- FROM customers);
- 
- COMMIT;
- 
- SELECT customer_id,cust_last_name
-FROM customers
-WHERE cust_last_name IN ('Watson','Ramklass') FOR UPDATE;
+SET
+    cust_last_name = 'Ramklass',
+    cust_first_name = 'Roopesh'
+WHERE
+    customer_id = (
+        SELECT
+            MAX(customer_id)
+        FROM
+            customers
+    );
+
+COMMIT;
+
+SELECT
+    customer_id,
+    cust_last_name
+FROM
+    customers
+WHERE
+    cust_last_name IN ( 'Watson', 'Ramklass' )
+FOR UPDATE;
 
 UPDATE customers
-SET credit_limit=0
-WHERE cust_last_name='Ramklass';
+SET
+    credit_limit = 0
+WHERE
+    cust_last_name = 'Ramklass';
 
 COMMIT;
 
 DELETE FROM customers
-WHERE cust_last_name IN ('Watson','Ramklass');
+WHERE
+    cust_last_name IN ( 'Watson', 'Ramklass' );
 
 TRUNCATE TABLE customers;
 
 COMMIT;
 
-SELECT max(customer_id)
-FROM customers;
+SELECT
+    MAX(customer_id)
+FROM
+    customers;
